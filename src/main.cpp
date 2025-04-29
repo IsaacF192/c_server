@@ -416,7 +416,7 @@ try {
     logger.log(Logger::INFO, "📂 safe_root = " + safe_root.string());
 
     // 🔐 Actual protection: ensure canonical path begins with canonical root
-    if (canonical_requested.native().rfind(safe_root.native(), 0) != 0) {
+    if (canonical_requested.string().compare(0, safe_root.string().length(), safe_root.string()) != 0) {
         logger.log(Logger::ERROR, " Blocked path traversal: " + canonical_requested.string());
         HttpResponse res(403, "<h1>403 Forbidden</h1>");
         response = res.to_string();
