@@ -553,11 +553,9 @@ try {
         
         std::ofstream file("submissions.txt", std::ios::app);     // Open file in append mode which mean new messages are added to the end
         if (file) {
-
             file << decoded_message << "\n---\n";  // Store the message, 
             // Write the decoded message followed by separator to the file.
-
-        }
+            }
         
         
         } // The lock is automatically released here when 'lock' goes out of scope
@@ -565,14 +563,10 @@ try {
         logger.log(Logger::INFO, "Form submitted with message: " + decoded_message);
         logger.log(Logger::INFO, "Form submitted with message: " + raw_message);
         
-        response = "HTTP/1.1 302 Found\r\n"
-           "Location: /messages.html\r\n"
-           "Content-Type: text/html\r\n"
-           "Content-Length: 0\r\n"
-           "\r\n";  // Double CRLF
+        
 
-        //HttpResponse res(200, "<h1>Thanks for your submission!</h1>");
-        //response = res.to_string();
+        HttpResponse res(200, "<h1>Thanks for your submission!</h1><p><a href='/messages.html'>View all messages</a></p>");
+        response = res.to_string();
     }
 
     // Handle unsupported methods or invalid paths
