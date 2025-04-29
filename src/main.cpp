@@ -412,10 +412,10 @@ try {
     // Canonicalize the full path to resolve any ../ or symbolic links
     std::filesystem::path canonical_requested = std::filesystem::canonical(full_path);
 
-    logger.log(Logger::INFO, "📂 canonical_requested = " + canonical_requested.string());
-    logger.log(Logger::INFO, "📂 safe_root = " + safe_root.string());
+    logger.log(Logger::INFO, "canonical_requested = " + canonical_requested.string());
+    logger.log(Logger::INFO, "safe_root = " + safe_root.string());
 
-    // 🔐 Actual protection: ensure canonical path begins with canonical root
+    // Actual protection: ensure canonical path begins with canonical root
     if (canonical_requested.string().compare(0, safe_root.string().length(), safe_root.string()) != 0) {
         logger.log(Logger::ERROR, " Blocked path traversal: " + canonical_requested.string());
         HttpResponse res(403, "<h1>403 Forbidden</h1>");
@@ -425,7 +425,7 @@ try {
         return;
     }
 
-    // ✅ Safe to serve
+    // Safe to serve
     std::ifstream file(canonical_requested);
     if (!file) {
         logger.log(Logger::ERROR, "File not found: " + canonical_requested.string());
@@ -450,7 +450,7 @@ try {
         response = res.to_string();
         send(client_fd, response.c_str(), response.size(), 0);
         close(client_fd);
-        return;  // ✅ Prevent fallback from overwriting this!
+        return;  // Prevent fallback from overwriting this!
     } else {
         HttpResponse res(404, "<h1>404 Not Found</h1>");
         response = res.to_string();
